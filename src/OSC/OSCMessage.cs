@@ -105,7 +105,7 @@ namespace UnityOSC
 		/// <returns>
 		/// A <see cref="OSCMessage"/>
 		/// </returns>
-		public static OSCMessage Unpack(byte[] data, ref int start)
+		public new static OSCMessage Unpack(byte[] data, ref int start)
 		{
 			string address = OSCPacket.UnpackValue<string>(data, ref start);
 			OSCMessage message = new OSCMessage(address);
@@ -149,6 +149,11 @@ namespace UnityOSC
 				}
 
 				message.Append(value);
+			}
+
+			if(message.TimeStamp == 0)
+			{
+				message.TimeStamp = DateTime.Now.Ticks;
 			}
 
 			return message;
